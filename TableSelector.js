@@ -14,13 +14,17 @@ var checkBoxTemplate_tableSelector = '<span>Colunas Afetadas: </span><label for=
 //Code
 var table;
 
+function love_me_later(){
+	table = $('#GridContainerTbl');
+	$(checkBoxTemplate_tableSelector).insertBefore(table);
+	$(buttonAlterarTudoTemplate_tableSelector).insertBefore(table);
+	botarBotoesNasLinhas();
+}
+
 $(window).on('load', function() {
-		table = $('table');
-		//$(modalTemplate_tableSelector).insertBefore(table);
-		$(checkBoxTemplate_tableSelector).insertBefore(table);
-		$(buttonAlterarTudoTemplate_tableSelector).insertBefore(table);
-		botarBotoesNasLinhas();
+	love_me_later();
 });
+
 
 
 function botarBotoesNasLinhas(){
@@ -28,7 +32,7 @@ function botarBotoesNasLinhas(){
 	$(linhas).each(function(index){
 		if($(linhas[index]).find('th').length > 0){
 			$(linhas[index]).prepend('<th>Alterar</th>');
-		}else if($(linhas[index]).find('input:checkbox').length > 0){
+		}else if($(linhas[index]).find('a').length > 0){
 			var template = buttonAlterarLinhaTemplate_tableSelector.replace("{index}",index);
 			$(linhas[index]).prepend(template);
 		}
@@ -47,9 +51,10 @@ function getCheckboxTemplateValues_tableSelector(){
 function alterarTudo_TableSelector(){
 	var linhas = $(table).find('tr');
 	$(linhas).each(function(index){
-		var colunas = $(linhas[index]).find('input:checkbox');
+		var colunas = $(linhas[index]).find('a');
 		$(colunas).each(function(index2){
 			if(getCheckboxTemplateValues_tableSelector()[index2]){
+				//console.log(colunas[index2]);
 				colunas[index2].click();
 			}
 		})
@@ -58,15 +63,16 @@ function alterarTudo_TableSelector(){
 
 function alterarLinha_TableSelector(index){
 	var linha = $(table).find('tr')[index];
-	var colunas = $(linha).find('input:checkbox');
+	var colunas = $(linha).find('a');
 	$(colunas).each(function(index2){
 		if(getCheckboxTemplateValues_tableSelector()[index2]){
+			//console.log(colunas[index2]);
 			colunas[index2].click();
 		}
 	})
 }
 
 
-
+love_me_later();
 
 /*End of Table Selector Code*/
